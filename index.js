@@ -10,10 +10,10 @@ const path = require('path')
 const qs = require('querystring')
 const args = require('minimist')(process.argv.slice(2))
 
-let nwo = args.r
-
 const sshPattern = /^git@github.com:(.+)\.git$/
 const httpsPattern = /^https:\/\/github\.com\/(.+)\.git$/
+
+let nwo = args.r
 
 if (!nwo) {
   try {
@@ -30,7 +30,7 @@ if (!nwo) {
 }
 
 assert(nwo, 'Must provide a repo (-r owner/repo) or have one in .git/config')
-assert(args.e, 'Must provide an event (-e deplay)')
+assert(args._[0], 'Must provide an event as the first positional argument')
 
 const req = https.request(
   `https://api.github.com/repos/${nwo}/dispatches`,
@@ -57,10 +57,10 @@ req.on('error', (err) => {
   process.exit(1)
 })
 
-const payload = {event_type: args.e}
+const payload = {event_type: args._[0]}
 
 if (args._.length) {
-  payload.client_payload = args._.reduce(
+  payload.client_payload = args._.slice(1).reduce(
     (clientPayload, kv) => Object.assign(clientPayload, qs.parse(kv)),
     {}
   )

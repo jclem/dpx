@@ -12,10 +12,11 @@ GitHub repositories.
 
 ```shell
 # Send a "test" event
-> npx dpx -r my-login/my-repo -e test
+> npx dpx -r my-login/my-repo test
 
-# Send a "test" event with a payload `{"foo": "bar"}`, and detect the repo from git
-> npx dpx -e test foo=bar
+# Send a "test" event with a payload `{"foo": "bar", "baz": "qux"}`, and detect
+# the repo from git
+> npx dpx test foo=bar baz=qux
 ```
 
 [dispatch]: https://developer.github.com/v3/repos/#create-a-repository-dispatch-event
