@@ -11,7 +11,7 @@ const qs = require('querystring')
 const args = require('minimist')(process.argv.slice(2))
 
 const sshPattern = /^git@github.com:(.+)\.git$/
-const httpsPattern = /^https:\/\/github\.com\/(.+)\.git$/
+const httpsPattern = /^https:\/\/github\.com\/(.+)$/
 
 let nwo = args.r
 
@@ -24,6 +24,7 @@ if (!nwo) {
     const remote = config['remote "origin"'].url
     const match = remote.match(sshPattern) || remote.match(httpsPattern)
     if (match) nwo = match[1]
+    if (nwo.endsWith('.git')) nwo = nwo.slice(0, nwo.length - 4)
   } catch (err) {
     // Just ignore this, we'll error out in the assert.
   }
