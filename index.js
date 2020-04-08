@@ -3,15 +3,37 @@
 'use strict'
 
 const assert = require('assert')
+const ini = require('ini')
+const fs = require('fs')
 const https = require('https')
+const path = require('path')
 const qs = require('querystring')
 const args = require('minimist')(process.argv.slice(2))
 
-assert(args.r, 'Must provide a repo (-r owner/repo)')
+let nwo = args.r
+
+const sshPattern = /^git@github.com:(.+)\.git$/
+const httpsPattern = /^https:\/\/github\.com\/(.+)\.git$/
+
+if (!nwo) {
+  try {
+    const config = ini.parse(
+      fs.readFileSync(path.join(process.cwd(), '.git', 'config')).toString()
+    )
+
+    const remote = config['remote "origin"'].url
+    const match = remote.match(sshPattern) || remote.match(httpsPattern)
+    if (match) nwo = match[1]
+  } catch (err) {
+    // Just ignore this, we'll error out in the assert.
+  }
+}
+
+assert(nwo, 'Must provide a repo (-r owner/repo) or have one in .git/config')
 assert(args.e, 'Must provide an event (-e deplay)')
 
 const req = https.request(
-  `https://api.github.com/repos/${args.r}/dispatches`,
+  `https://api.github.com/repos/${nwo}/dispatches`,
   {
     method: 'POST',
     headers: {
