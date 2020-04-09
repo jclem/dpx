@@ -12,6 +12,11 @@ const args = require('minimist')(process.argv.slice(2))
 const sshPattern = /^git@github.com:(.+)\.git$/
 const httpsPattern = /^https:\/\/github\.com\/(.+)$/
 
+if (args.v || args.version) {
+  console.log(require('./package.json').version)
+  process.exit(0)
+}
+
 if (args.h || args.help) {
   printHelp()
   process.exit(0)
@@ -97,7 +102,8 @@ Examples:
   dpx -r jclem/dpx -t $githubtoken deploy branch=master
   
 Flags:
-  -r, --repo  The repository (e.g. jclem/dpx) to dispatch to
-  -t, --token A GitHub personal access token with repo scope
-  -h, --help  Display this message`)
+  -r, --repo    The repository (e.g. jclem/dpx) to dispatch to
+  -t, --token   A GitHub personal access token with repo scope
+  -v, --version Display the version of dpx
+  -h, --help    Display this message`)
 }

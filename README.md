@@ -25,6 +25,8 @@ This tool attempts to allow you to dispatch events quickly with as little typing
 - `-r`/`--repo` A name-with-owner string (as in `jclem/dpx`) pointing to the
   repository for the dispatch to be sent to
 - `-t`/`--token` A GitHub personal access token with `repo` scope
+- `-h`/`--help` Display the help message
+- `-v`/`--version` Display the version of dpx
 - `$event` The first non-flag argument is interpreted as the event
 - `$key=$value` Any number of key-value pairs that are parsed and sent as a
   JSON object as the event payload
