@@ -18,6 +18,7 @@ if (args.h || args.help) {
 }
 
 let nwo = args.r || args.repo
+const [event, ...kvPairs] = args._
 
 if (!nwo) {
   try {
@@ -40,7 +41,7 @@ if (!nwo) {
   process.exit(1)
 }
 
-if (!args._[0]) {
+if (!event) {
   console.error('Must provide an event as the first positional argument')
   printHelp()
   process.exit(1)
@@ -73,10 +74,10 @@ req.on('error', (err) => {
   process.exit(1)
 })
 
-const payload = {event_type: args._[0]}
+const payload = {event_type: event}
 
-if (args._.length) {
-  payload.client_payload = args._.slice(1).reduce(
+if (kvPairs.length) {
+  payload.client_payload = kvPairs.reduce(
     (clientPayload, kv) => Object.assign(clientPayload, qs.parse(kv)),
     {}
   )
