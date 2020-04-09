@@ -2,7 +2,6 @@
 
 'use strict'
 
-const assert = require('assert')
 const ini = require('ini')
 const fs = require('fs')
 const https = require('https')
@@ -13,7 +12,12 @@ const args = require('minimist')(process.argv.slice(2))
 const sshPattern = /^git@github.com:(.+)\.git$/
 const httpsPattern = /^https:\/\/github\.com\/(.+)$/
 
-let nwo = args.r
+if (args.h || args.help) {
+  printHelp()
+  process.exit(0)
+}
+
+let nwo = args.r || args.repo
 
 if (!nwo) {
   try {
@@ -30,15 +34,26 @@ if (!nwo) {
   }
 }
 
-assert(nwo, 'Must provide a repo (-r owner/repo) or have one in .git/config')
-assert(args._[0], 'Must provide an event as the first positional argument')
+if (!nwo) {
+  console.error('Must provide a repo or have one as "origin" in .git/config')
+  printHelp()
+  process.exit(1)
+}
+
+if (!args._[0]) {
+  console.error('Must provide an event as the first positional argument')
+  printHelp()
+  process.exit(1)
+}
 
 const req = https.request(
   `https://api.github.com/repos/${nwo}/dispatches`,
   {
     method: 'POST',
     headers: {
-      authorization: `Bearer ${args.t || process.env.GITHUB_TOKEN}`,
+      authorization: `Bearer ${
+        args.t || args.token || process.env.GITHUB_TOKEN
+      }`,
       'user-agent': 'npm.im/dpx',
       'content-type': 'application/json',
     },
@@ -69,3 +84,19 @@ if (args._.length) {
 
 req.write(JSON.stringify(payload))
 req.end()
+
+function printHelp() {
+  console.log(`Send a repository dispatch event to a GitHub repository.
+  
+Usage:
+  dpx [...flags] [event] [...key=value]
+
+Examples:
+  dpx deploy branch=master
+  dpx -r jclem/dpx -t $githubtoken deploy branch=master
+  
+Flags:
+  -r, --repo  The repository (e.g. jclem/dpx) to dispatch to
+  -t, --token A GitHub personal access token with repo scope
+  -h, --help  Display this message`)
+}
