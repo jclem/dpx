@@ -11,6 +11,7 @@ This tool attempts to allow you to dispatch events quickly with as little typing
   environment variable.
 - You can avoid passing a GitHub repository by having a git remote called
   "origin" in your .git/config that points to a GitHub repository
+- By default, dpx attempts to parse values as JSON (pass `--raw` to avoid this)
 
 ```shell
 # Send a "test" event.
@@ -18,6 +19,12 @@ This tool attempts to allow you to dispatch events quickly with as little typing
 
 # Send a "deploy" event with a payload `{"branch": "master"}`.
 > npx dpx deploy branch=master
+
+# Send a "db-migrate" event with a payload `{"direction": "up", "count": 1}`
+> npx dpx db-migrate direction=up count=1
+
+# Send a "db-migrate" event with a payload `{"direction": "up", "count": "1"}`
+> npx dpx --raw db-migrate direction=up count=1
 ```
 
 ### Flags & Arguments
@@ -25,14 +32,13 @@ This tool attempts to allow you to dispatch events quickly with as little typing
 - `-r`/`--repo` A name-with-owner string (as in `jclem/dpx`) pointing to the
   repository for the dispatch to be sent to
 - `-t`/`--token` A GitHub personal access token with `repo` scope
-- `-h`/`--help` Display the help message
 - `-v`/`--version` Display the version of dpx
+- `--raw` Do not parse values in key=value parirs
+- `-d`/`--dry-run` Log event type and payload, but don't send a request
+- `-h`/`--help` Display the help message
 - `$event` The first non-flag argument is interpreted as the event
 - `$key=$value` Any number of key-value pairs that are parsed and sent as a
   JSON object as the event payload
-
-_Note that values are always strings at this time, and nested objects are not
-(yet) supported._
 
 ## Context
 
