@@ -1,6 +1,6 @@
 {
   "name": "dpx",
-  "version": "3.0.0",
+  "version": "3.0.1",
   "description": "Send repository dispatch events to a GitHub repository",
   "main": "index.js",
   "scripts": {
