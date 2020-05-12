@@ -1,4 +1,4 @@
-# dpx <img src="send.svg" align="bottom" height="32px" />
+# dpx <img src="send.svg" align="top" />
 
 This is a utility for sending [repository dispatch][dispatch] events to
 GitHub repositories.
