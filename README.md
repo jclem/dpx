@@ -33,7 +33,7 @@ This tool attempts to allow you to dispatch events quickly with as little typing
   repository for the dispatch to be sent to
 - `-t`/`--token` A GitHub personal access token with `repo` scope
 - `-v`/`--version` Display the version of dpx
-- `--raw` Do not parse values in key=value parirs
+- `--raw` Do not parse values in key=value pairs
 - `-d`/`--dry-run` Log event type and payload, but don't send a request
 - `-h`/`--help` Display the help message
 - `$event` The first non-flag argument is interpreted as the event
