@@ -176,8 +176,8 @@ Examples:
 
   Create a repository dispatch:
 
-    dpx deploy branch=master
-    dpx --repo=jclem/dpx --token=$githubtoken deploy branch=master
+    dpx deploy branch=main
+    dpx --repo=jclem/dpx --token=$githubtoken deploy branch=main
 
   Create a workflow dispatch:
 

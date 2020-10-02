@@ -20,8 +20,8 @@ typing as possible, provided you've got your environment set up for it:
 # Send a "test" repo dispatch event.
 > npx dpx test
 
-# Send a "deploy" repo dispatch event with a payload `{"branch": "master"}`.
-> npx dpx deploy branch=master
+# Send a "deploy" repo dispatch event with a payload `{"branch": "main"}`.
+> npx dpx deploy branch=main
 
 # Send a "db-migrate" repo dispatch event with a payload `{"direction": "up", "count": 1}`
 > npx dpx db-migrate direction=up count=1
